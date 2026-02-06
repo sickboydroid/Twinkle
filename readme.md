@@ -2,13 +2,15 @@
 
 ## Running
 
-- Clone the repository and run following commands
-
 ```sh
-# install libraries
+# Clone the repository
+git clone https://github.com/sickboydroid/Twinkle
+cd Twinkle
+
+# Install libraries
 npm install
 
-# serve using vite
+# Serve using vite
 npx vite
 ```
 
