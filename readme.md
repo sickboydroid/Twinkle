@@ -1,17 +1,18 @@
 # Twinkle
 
-## Running
+## How to make it go vroom...
 
 ```sh
-# Clone the repository
+# Clone the repo
 git clone https://github.com/sickboydroid/Twinkle
 cd Twinkle
 
-# Install libraries
+# Summon node_modules (this may take a moment)
 npm install
 
-# Serve using vite
+# Locally serve the site
 npx vite
 ```
 
-- Then open the browser and go to url `http://localhost:5173` and that is it
+- Open your browser and visit `http://localhost:5173`
+- Click around, place some stars and enjoy the physics
