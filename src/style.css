@@ -1,0 +1,196 @@
+* {
+  font-family: inherit;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+}
+
+#canvas {
+  top: 0;
+  left: 0;
+  position: absolute;
+  background-color: #282828;
+}
+
+/* Core Panel Styling */
+.control-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 260px;
+  padding: 20px;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+  color: #e0e0e0;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+
+/* Header & Stats */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 0;
+  color: #ffffff;
+}
+
+.live-stats {
+  font-size: 12px;
+  color: #a0a0a0;
+  font-feature-settings: "tnum";
+}
+
+/* Inputs */
+.input-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.half {
+  width: 50%;
+}
+
+label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  color: #aaa;
+}
+
+.unit {
+  text-transform: lowercase;
+  opacity: 0.6;
+}
+
+input[type="number"] {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+input[type="number"]:focus {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+input[type="number"]::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Error State */
+input.error {
+  border-color: #ff4d4d;
+  background: rgba(255, 77, 77, 0.1);
+}
+
+/* Custom Checkbox */
+.check-row {
+  margin: 15px 0;
+  align-items: center;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 13px;
+  user-select: none;
+}
+
+.checkbox-container input {
+  display: none;
+}
+
+.checkmark {
+  height: 16px;
+  width: 16px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin-right: 10px;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #ffffff;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 3px;
+  height: 8px;
+  border: solid #282828;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Actions */
+.btn-danger {
+  width: 100%;
+  padding: 8px;
+  background: rgba(255, 77, 77, 0.15);
+  border: 1px solid rgba(255, 77, 77, 0.3);
+  color: #ff9999;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.btn-danger:hover {
+  background: rgba(255, 77, 77, 0.25);
+  color: #fff;
+}
+
+/* Hints */
+.hints {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hints p {
+  margin: 4px 0;
+  font-size: 10px;
+  color: #888;
+}
+
+.hints b {
+  color: #ccc;
+}

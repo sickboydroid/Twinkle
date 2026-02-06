@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multiply</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <canvas width="100%" height="100%" id="canvas"></canvas>
+    <aside class="control-panel">
+      <div class="panel-header">
+        <h1 class="title">Twinkle</h1>
+        <div class="live-stats">Live Stars: <span id="star-count">0</span></div>
+      </div>
+
+      <div class="row">
+        <div class="input-group">
+          <label for="mass">Mass <span class="unit">(kg)</span></label>
+          <input type="number" id="mass" placeholder="1000" />
+        </div>
+
+        <div class="input-group">
+          <label for="radius">Radius <span class="unit">(km)</span></label>
+          <input type="number" id="radius" placeholder="5" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-group half">
+          <label for="vx">Vx <span class="unit">(m/s)</span></label>
+          <input type="number" id="vx" placeholder="0" />
+        </div>
+        <div class="input-group half">
+          <label for="vy">Vy <span class="unit">(m/s)</span></label>
+          <input type="number" id="vy" placeholder="0" />
+        </div>
+      </div>
+
+      <div class="row check-row">
+        <label class="checkbox-container">
+          <input type="checkbox" id="fixed" />
+          <span class="checkmark"></span>
+          <span class="label-text">Fixed Position</span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button id="clear-btn" class="btn-danger">Clear All</button>
+      </div>
+
+      <div class="hints">
+        <p>• Click canvas to spawn star</p>
+        <p>• Hold <b>Alt + Move</b> for stream</p>
+      </div>
+    </aside>
+  </body>
+</html>
