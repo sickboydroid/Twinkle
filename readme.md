@@ -2,7 +2,7 @@
 
 ## How to make it go vroom...
 
-- Visit here to see live demo: (http://mockemon.me/Twinkle/)[Go to Twinkle]
+- Visit here to see live demo: [Go to Twinkle](http://mockemon.me/Twinkle/)
 
 ## How to make it go vroom... (local version)
 
