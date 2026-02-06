@@ -20,6 +20,6 @@ npx vite
 ## Screenshots
 
 <p align="center">
-  <img src="images/Screenshot%202026-02-06%20232008.png" width="45%" />
-  <img src="images/Screenshot%202026-02-06%20232047.png" width="45%" />
+  <img src="images/Screenshot 2026-02-06 232502.png" width="45%" />
+  <img src="images/Screenshot 2026-02-06 232047.png" width="45%" />
 </p>
