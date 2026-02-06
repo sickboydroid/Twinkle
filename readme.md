@@ -2,6 +2,10 @@
 
 ## How to make it go vroom...
 
+- Visit here to see live demo: (http://mockemon.me/Twinkle/)[Go to Twinkle]
+
+## How to make it go vroom... (local version)
+
 ```sh
 # Clone the repo
 git clone https://github.com/sickboydroid/Twinkle
