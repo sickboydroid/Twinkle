@@ -1,21 +1,25 @@
 import {
-  currentStarData,
+  currentConfig,
   initControls,
   updateFrameRate,
   updateStarCount,
 } from "./controls";
-import { randomBrightColor } from "./utils";
+import Feild from "./field";
+import { Star } from "./star";
 import Wall from "./wall";
 
 export const canvas = document.querySelector("#canvas") as HTMLCanvasElement;
 export const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 export const WORLD_WIDTH = window.innerWidth;
 export const WORLD_HEIGHT = window.innerHeight;
-const G = 100;
 export let stars: Star[] = [];
 export let walls: Wall[] = [];
+export const field = new Feild();
 let lastTime = 0;
-let lastFrameRateUpdateTime = 0;
+const frameRateInfo = {
+  lastUpdateTime: 0,
+  frameCountSinceUpdate: 0,
+};
 
 initCanvas();
 toggleWalls();
@@ -32,7 +36,7 @@ function initCanvas() {
 }
 
 export function toggleWalls() {
-  if (!currentStarData.walls) {
+  if (!currentConfig.walls) {
     walls.length = 0;
     return;
   }
@@ -47,24 +51,27 @@ export function toggleWalls() {
 function addNewStar(x: number, y: number) {
   console.log("adding new star");
   const star = new Star(x, y);
-  star.mass = currentStarData.mass;
-  star.radius = currentStarData.radius;
-  star.isFixed = currentStarData.fixed;
-  star.vx = currentStarData.vx;
-  star.vy = currentStarData.vy;
+  star.mass = currentConfig.mass;
+  star.radius = currentConfig.radius;
+  star.isFixed = currentConfig.fixed;
+  star.vx = currentConfig.vx;
+  star.vy = currentConfig.vy;
   stars.push(star);
 }
 
 /******************Drawing Logic**********************/
 
 function draw(curTime: number) {
-  ctx.fillStyle = "rgba(40,40,40,0.08)";
+  if (currentConfig.trail) ctx.fillStyle = "rgba(40,40,40,0.08)";
+  else ctx.fillStyle = "rgba(40,40,40,1)";
   ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
   if (lastTime == 0) lastTime = curTime;
-  if (curTime - lastFrameRateUpdateTime >= 1000) {
-    updateFrameRate(Math.round(1000 / (curTime - lastTime)));
-    lastFrameRateUpdateTime = curTime;
+  if (curTime - frameRateInfo.lastUpdateTime >= 1000) {
+    updateFrameRate(frameRateInfo.frameCountSinceUpdate);
+    frameRateInfo.frameCountSinceUpdate = 0;
+    frameRateInfo.lastUpdateTime = curTime;
   }
+  frameRateInfo.frameCountSinceUpdate++;
   const deltaTime = Math.min(curTime - lastTime, 10) / 1000;
   lastTime = curTime;
   for (const star of stars) {
@@ -77,106 +84,10 @@ function draw(curTime: number) {
   for (const wall of walls) {
     wall.draw(ctx);
   }
+  if (currentConfig.field) field.draw(ctx);
   ctx.font = "20px monospace";
   ctx.fillStyle = "white";
   stars = stars.filter((star) => !star.markedForDeletion);
   updateStarCount(stars.length);
   requestAnimationFrame(draw);
-}
-
-/***************************ENTITIES**********************/
-class Star {
-  readonly MAX_VX = 2500;
-  readonly MAX_VY = 2500;
-  x: number;
-  y: number;
-  color = randomBrightColor();
-  vx = 0;
-  vy = 0;
-  mass = 1000;
-  markedForDeletion = false;
-  radius = 5;
-  isFixed = false;
-  ax = 0;
-  ay = 0;
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
-  }
-
-  computeAcceleration() {
-    [this.ax, this.ay] = [0, 0];
-    for (const star of stars) {
-      if (star == this) continue;
-      const [gx, gy] = star.getGravitationalFieldAt(this.x, this.y);
-      this.ax += gx;
-      this.ay += gy;
-    }
-  }
-
-  update(deltaTime: number) {
-    if (this.isFixed) return;
-
-    // update velocity
-    this.vx += this.ax * deltaTime;
-    this.vy += this.ay * deltaTime;
-    this.vx = Math.max(-this.MAX_VX, Math.min(this.MAX_VX, this.vx));
-    this.vy = Math.max(-this.MAX_VY, Math.min(this.MAX_VY, this.vy));
-
-    // check collisions with wall
-    for (const wall of walls) {
-      if (wall.wallType === "left") {
-        const bound = wall.x + wall.width;
-        if (this.x - this.radius < bound) {
-          this.x = bound + this.radius;
-          this.vx = Math.abs(this.vx);
-        }
-      } else if (wall.wallType === "right") {
-        const bound = wall.x;
-        if (this.x + this.radius > bound) {
-          this.x = bound - this.radius;
-          this.vx = -Math.abs(this.vx);
-        }
-      } else if (wall.wallType === "top") {
-        const bound = wall.y + wall.height;
-        if (this.y - this.radius < bound) {
-          this.y = bound + this.radius;
-          this.vy = Math.abs(this.vy);
-        }
-      } else if (wall.wallType === "bottom") {
-        const bound = wall.y;
-        if (this.y + this.radius > bound) {
-          this.y = bound - this.radius;
-          this.vy = -Math.abs(this.vy);
-        }
-      }
-    }
-
-    // update position
-    this.x += this.vx * deltaTime;
-    this.y += this.vy * deltaTime;
-
-    // check if left the world
-    this.markedForDeletion =
-      this.x < -10 * WORLD_WIDTH ||
-      this.x > 10 * WORLD_WIDTH ||
-      this.y < -10 * WORLD_HEIGHT ||
-      this.y > 10 * WORLD_HEIGHT;
-  }
-
-  draw(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = this.color;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-    ctx.fill();
-  }
-
-  getGravitationalFieldAt(x: number, y: number) {
-    const eps = 25; //  preventing inf values, and for softening
-    const dx = this.x - x;
-    const dy = this.y - y;
-    const dist = Math.sqrt(dx * dx + dy * dy + eps * eps);
-    let g = (G * this.mass) / (dist * dist);
-    return [(g * dx) / dist, (g * dy) / dist];
-  }
 }

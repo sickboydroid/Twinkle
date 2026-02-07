@@ -1,3 +1,5 @@
+export const G = 100;
+
 export function randomBrightColor() {
   const h = Math.random() * 360;
   const s = 80 + Math.random() * 20;

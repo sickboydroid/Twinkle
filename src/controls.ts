@@ -1,58 +1,70 @@
 import { ctx, stars, toggleWalls, WORLD_HEIGHT, WORLD_WIDTH } from "./main";
 
-interface StarData {
+interface Config {
   mass: number;
   radius: number;
   vx: number;
   vy: number;
   fixed: boolean;
   walls: boolean;
+  field: boolean;
+  collisions: boolean;
+  trail: boolean;
 }
 
-const DEFAULTS: StarData = {
+const DEFAULTS: Config = {
   mass: 50000,
   radius: 5,
   vx: 0,
   vy: 0,
   fixed: false,
   walls: true,
+  field: false,
+  collisions: false,
+  trail: true,
 };
 
 // Reactive Object holds most recent info given by user
-export const currentStarData: StarData = { ...DEFAULTS };
+export const currentConfig: Config = { ...DEFAULTS };
 
 const inputs = {
   mass: document.getElementById("mass") as HTMLInputElement,
   radius: document.getElementById("radius") as HTMLInputElement,
   vx: document.getElementById("vx") as HTMLInputElement,
   vy: document.getElementById("vy") as HTMLInputElement,
-  fixed: document.getElementById("fixed") as HTMLInputElement,
-  walls: document.getElementById("walls") as HTMLInputElement,
   count: document.getElementById("star-count") as HTMLElement,
   frameRate: document.getElementById("frame-rate") as HTMLElement,
   clearBtn: document.getElementById("clear-btn") as HTMLButtonElement,
+  fixed: document.getElementById("fixed") as HTMLInputElement,
+  walls: document.getElementById("walls") as HTMLInputElement,
+  field: document.getElementById("field") as HTMLInputElement,
+  collisions: document.getElementById("collisions") as HTMLInputElement,
+  trail: document.getElementById("trail") as HTMLInputElement,
 };
 
 /**
  * Validates input and updates the data object.
  * Adds visual error feedback if input is invalid
  */
-const updateData = (key: keyof StarData, element: HTMLInputElement) => {
+const updateData = (key: keyof Config, element: HTMLInputElement) => {
   if (key === "fixed") {
-    currentStarData.fixed = element.checked;
-    return;
+    currentConfig.fixed = element.checked;
   } else if (key == "walls") {
-    currentStarData.walls = element.checked;
-    return;
-  }
-
-  const val = parseFloat(element.value);
-
-  if (isNaN(val)) {
-    element.classList.add("error");
+    currentConfig.walls = element.checked;
+  } else if (key == "collisions") {
+    currentConfig.collisions = element.checked;
+  } else if (key == "field") {
+    currentConfig.field = element.checked;
+  } else if (key == "trail") {
+    currentConfig.trail = element.checked;
   } else {
-    element.classList.remove("error");
-    currentStarData[key] = val;
+    const val = parseFloat(element.value);
+    if (isNaN(val)) {
+      element.classList.add("error");
+    } else {
+      element.classList.remove("error");
+      currentConfig[key] = val;
+    }
   }
 };
 
@@ -67,6 +79,9 @@ export const initControls = () => {
   inputs.vy.value = DEFAULTS.vy.toString();
   inputs.fixed.checked = DEFAULTS.fixed;
   inputs.walls.checked = DEFAULTS.walls;
+  inputs.collisions.checked = DEFAULTS.collisions;
+  inputs.field.checked = DEFAULTS.field;
+  inputs.trail.checked = DEFAULTS.trail;
 
   // Bind Listeners
   inputs.mass.addEventListener("input", () => updateData("mass", inputs.mass));
@@ -82,7 +97,15 @@ export const initControls = () => {
     updateData("walls", inputs.walls);
     toggleWalls();
   });
-
+  inputs.collisions.addEventListener("change", () =>
+    updateData("collisions", inputs.collisions),
+  );
+  inputs.field.addEventListener("change", () => {
+    updateData("field", inputs.field);
+  });
+  inputs.trail.addEventListener("change", () =>
+    updateData("trail", inputs.trail),
+  );
   inputs.clearBtn.addEventListener("click", () => {
     ctx.fillStyle = "#282828";
     ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
