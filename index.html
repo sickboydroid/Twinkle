@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Multiply</title>
-    <script type="module" crossorigin src="./assets/index-Bfh978tW.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-BN9oXFvA.css" />
+    <script type="module" crossorigin src="./assets/index-CG2PCx8A.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CiUqBgM4.css" />
   </head>
   <body>
     <canvas width="100%" height="100%" id="canvas"></canvas>
@@ -13,6 +13,7 @@
       <div class="panel-header">
         <h1 class="title">Twinkle</h1>
         <div class="live-stats">Live Stars: <span id="star-count">0</span></div>
+        <div class="live-stats">Frame Rate: <span id="frame-rate">0</span></div>
       </div>
 
       <div class="row">
@@ -43,6 +44,11 @@
           <input type="checkbox" id="fixed" />
           <span class="checkmark"></span>
           <span class="label-text">Fixed Position</span>
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox" id="walls" />
+          <span class="checkmark"></span>
+          <span class="label-text">Walls</span>
         </label>
       </div>
 
