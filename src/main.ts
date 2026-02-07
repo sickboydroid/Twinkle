@@ -1,4 +1,9 @@
-import { currentStarData, initControls, updateStarCount } from "./controls";
+import {
+  currentStarData,
+  initControls,
+  updateFrameRate,
+  updateStarCount,
+} from "./controls";
 import { randomBrightColor } from "./utils";
 import Wall from "./wall";
 
@@ -10,6 +15,7 @@ const G = 100;
 export let stars: Star[] = [];
 export let walls: Wall[] = [];
 let lastTime = 0;
+let lastFrameRateUpdateTime = 0;
 
 initCanvas();
 toggleWalls();
@@ -55,7 +61,11 @@ function draw(curTime: number) {
   ctx.fillStyle = "rgba(40,40,40,0.08)";
   ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
   if (lastTime == 0) lastTime = curTime;
-  const deltaTime = Math.min(curTime - lastTime, 20) / 1000;
+  if (curTime - lastFrameRateUpdateTime >= 1000) {
+    updateFrameRate(Math.round(1000 / (curTime - lastTime)));
+    lastFrameRateUpdateTime = curTime;
+  }
+  const deltaTime = Math.min(curTime - lastTime, 10) / 1000;
   lastTime = curTime;
   for (const star of stars) {
     star.computeAcceleration();
@@ -76,8 +86,8 @@ function draw(curTime: number) {
 
 /***************************ENTITIES**********************/
 class Star {
-  readonly MAX_VX = 500;
-  readonly MAX_VY = 500;
+  readonly MAX_VX = 2500;
+  readonly MAX_VY = 2500;
   x: number;
   y: number;
   color = randomBrightColor();
@@ -108,15 +118,10 @@ class Star {
     if (this.isFixed) return;
 
     // update velocity
-    this.vx += Math.min(
-      this.MAX_VX,
-      Math.max(-this.MAX_VX, this.ax * deltaTime),
-    );
-
-    this.vy += Math.min(
-      this.MAX_VY,
-      Math.max(-this.MAX_VY, this.ay * deltaTime),
-    );
+    this.vx += this.ax * deltaTime;
+    this.vy += this.ay * deltaTime;
+    this.vx = Math.max(-this.MAX_VX, Math.min(this.MAX_VX, this.vx));
+    this.vy = Math.max(-this.MAX_VY, Math.min(this.MAX_VY, this.vy));
 
     // check collisions with wall
     for (const wall of walls) {

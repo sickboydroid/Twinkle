@@ -29,6 +29,7 @@ const inputs = {
   fixed: document.getElementById("fixed") as HTMLInputElement,
   walls: document.getElementById("walls") as HTMLInputElement,
   count: document.getElementById("star-count") as HTMLElement,
+  frameRate: document.getElementById("frame-rate") as HTMLElement,
   clearBtn: document.getElementById("clear-btn") as HTMLButtonElement,
 };
 
@@ -92,4 +93,8 @@ export const initControls = () => {
 
 export const updateStarCount = (count: number) => {
   if (inputs.count) inputs.count.innerText = count.toString();
+};
+
+export const updateFrameRate = (count: number) => {
+  if (inputs.frameRate) inputs.frameRate.innerText = count.toString();
 };
