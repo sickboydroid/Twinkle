@@ -1,4 +1,4 @@
-import { ctx, stars, WORLD_HEIGHT, WORLD_WIDTH } from "./main";
+import { ctx, stars, toggleWalls, WORLD_HEIGHT, WORLD_WIDTH } from "./main";
 
 interface StarData {
   mass: number;
@@ -6,14 +6,16 @@ interface StarData {
   vx: number;
   vy: number;
   fixed: boolean;
+  walls: boolean;
 }
 
 const DEFAULTS: StarData = {
-  mass: 10000,
+  mass: 50000,
   radius: 5,
   vx: 0,
   vy: 0,
   fixed: false,
+  walls: true,
 };
 
 // Reactive Object holds most recent info given by user
@@ -25,6 +27,7 @@ const inputs = {
   vx: document.getElementById("vx") as HTMLInputElement,
   vy: document.getElementById("vy") as HTMLInputElement,
   fixed: document.getElementById("fixed") as HTMLInputElement,
+  walls: document.getElementById("walls") as HTMLInputElement,
   count: document.getElementById("star-count") as HTMLElement,
   clearBtn: document.getElementById("clear-btn") as HTMLButtonElement,
 };
@@ -36,6 +39,9 @@ const inputs = {
 const updateData = (key: keyof StarData, element: HTMLInputElement) => {
   if (key === "fixed") {
     currentStarData.fixed = element.checked;
+    return;
+  } else if (key == "walls") {
+    currentStarData.walls = element.checked;
     return;
   }
 
@@ -59,6 +65,7 @@ export const initControls = () => {
   inputs.vx.value = DEFAULTS.vx.toString();
   inputs.vy.value = DEFAULTS.vy.toString();
   inputs.fixed.checked = DEFAULTS.fixed;
+  inputs.walls.checked = DEFAULTS.walls;
 
   // Bind Listeners
   inputs.mass.addEventListener("input", () => updateData("mass", inputs.mass));
@@ -70,6 +77,10 @@ export const initControls = () => {
   inputs.fixed.addEventListener("change", () =>
     updateData("fixed", inputs.fixed),
   );
+  inputs.walls.addEventListener("change", () => {
+    updateData("walls", inputs.walls);
+    toggleWalls();
+  });
 
   inputs.clearBtn.addEventListener("click", () => {
     ctx.fillStyle = "#282828";

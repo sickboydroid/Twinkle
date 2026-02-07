@@ -22,7 +22,7 @@
   top: 20px;
   right: 20px;
   width: 260px;
-  padding: 20px;
+  padding: 10px;
   border-radius: 12px;
 
   background: rgba(255, 255, 255, 0.05);
@@ -62,14 +62,14 @@
 
 /* Inputs */
 .input-group {
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   display: flex;
   flex-direction: column;
 }
 
 .row {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .half {
@@ -118,7 +118,7 @@ input.error {
 
 /* Custom Checkbox */
 .check-row {
-  margin: 15px 0;
+  margin: 12px 0;
   align-items: center;
 }
 
@@ -180,7 +180,7 @@ input.error {
 
 /* Hints */
 .hints {
-  margin-top: 15px;
+  margin-top: 12px;
   padding-top: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
