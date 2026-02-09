@@ -9,8 +9,8 @@ import { G, randomBrightColor } from "./utils";
 import Vector from "./vector";
 
 export class Star {
-  readonly MAX_VX = 5000;
-  readonly MAX_VY = 5000;
+  readonly MAX_VX = 10000;
+  readonly MAX_VY = 10000;
   x: number;
   y: number;
   color = randomBrightColor();
