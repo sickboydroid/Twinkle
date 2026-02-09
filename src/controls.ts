@@ -55,8 +55,19 @@ const updateData = (key: keyof Config, element: HTMLInputElement) => {
     currentConfig.collisions = element.checked;
   } else if (key == "field") {
     currentConfig.field = element.checked;
+    if (currentConfig.field && currentConfig.trail) {
+      currentConfig.trail = false;
+      inputs.trail.checked = false;
+    }
   } else if (key == "trail") {
     currentConfig.trail = element.checked;
+    if (currentConfig.trail && currentConfig.field) {
+      // FIXME: Use some flag to let draw function know that it has to clear once even though trail is on
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+      currentConfig.field = false;
+      inputs.field.checked = false;
+    }
   } else {
     const val = parseFloat(element.value);
     if (isNaN(val)) {
