@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Multiply</title>
-    <script type="module" crossorigin src="./assets/index-CG2PCx8A.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-CiUqBgM4.css" />
+    <script type="module" crossorigin src="./assets/index-1ASwoDXd.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-B6xckO_c.css" />
   </head>
   <body>
     <canvas width="100%" height="100%" id="canvas"></canvas>
@@ -16,6 +16,9 @@
         <div class="live-stats">Frame Rate: <span id="frame-rate">0</span></div>
       </div>
 
+      <div class="panel-subheader">
+        <h1 class="title">Star Config</h1>
+      </div>
       <div class="row">
         <div class="input-group">
           <label for="mass">Mass <span class="unit">(kg)</span></label>
@@ -45,17 +48,38 @@
           <span class="checkmark"></span>
           <span class="label-text">Fixed Position</span>
         </label>
-        <label class="checkbox-container">
-          <input type="checkbox" id="walls" />
-          <span class="checkmark"></span>
-          <span class="label-text">Walls</span>
-        </label>
       </div>
 
       <div class="actions">
         <button id="clear-btn" class="btn-danger">Clear All</button>
       </div>
+      <div class="panel-subheader">
+        <h1 class="title">Simulation Config</h1>
+      </div>
 
+      <div class="row check-row">
+        <label class="checkbox-container">
+          <input type="checkbox" id="walls" />
+          <span class="checkmark"></span>
+          <span class="label-text">Walls</span>
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox" id="field" />
+          <span class="checkmark"></span>
+          <span class="label-text">Field</span>
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox" id="collisions" />
+          <span class="checkmark"></span>
+          <span class="label-text">Collisions</span>
+        </label>
+
+        <label class="checkbox-container">
+          <input type="checkbox" id="trail" />
+          <span class="checkmark"></span>
+          <span class="label-text">Trail</span>
+        </label>
+      </div>
       <div class="hints">
         <p>• Click canvas to spawn star</p>
         <p>• Hold <b>Alt + Move</b> for stream</p>
