@@ -77,7 +77,9 @@ function draw(curTime: number) {
   lastTime = curTime;
   for (const star of stars) star.computeAcceleration();
   for (const star of stars) star.update(deltaTime);
-  if (currentConfig.collisions) resolveStarCollisons();
+
+  if (currentConfig.collisions)
+    for (let i = 0; i < 4; i++) resolveStarCollisons();
   for (const star of stars) star.draw(ctx);
   for (const wall of walls) wall.draw(ctx);
   if (currentConfig.field) field.draw(ctx);
