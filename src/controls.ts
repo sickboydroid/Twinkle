@@ -20,7 +20,7 @@ const DEFAULTS: Config = {
   fixed: false,
   walls: true,
   field: false,
-  collisions: false,
+  collisions: true,
   trail: true,
 };
 
