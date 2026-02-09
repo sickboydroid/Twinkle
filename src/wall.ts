@@ -35,6 +35,7 @@ export default class Wall {
       this.height = Wall.thickness;
     }
   }
+
   update() {}
 
   draw(ctx: CanvasRenderingContext2D) {

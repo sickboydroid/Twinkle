@@ -5,13 +5,14 @@ import {
   updateStarCount,
 } from "./controls";
 import Feild from "./field";
-import { Star } from "./star";
+import { resolveStarCollisons, Star } from "./star";
 import Wall from "./wall";
 
 export const canvas = document.querySelector("#canvas") as HTMLCanvasElement;
 export const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 export const WORLD_WIDTH = window.innerWidth;
 export const WORLD_HEIGHT = window.innerHeight;
+export const COEFFICIENT_OF_RESTITUTION = 0.9;
 export let stars: Star[] = [];
 export let walls: Wall[] = [];
 export const field = new Feild();
@@ -74,16 +75,11 @@ function draw(curTime: number) {
   frameRateInfo.frameCountSinceUpdate++;
   const deltaTime = Math.min(curTime - lastTime, 30) / 1000;
   lastTime = curTime;
-  for (const star of stars) {
-    star.computeAcceleration();
-  }
-  for (const star of stars) {
-    star.update(deltaTime);
-    star.draw(ctx);
-  }
-  for (const wall of walls) {
-    wall.draw(ctx);
-  }
+  for (const star of stars) star.computeAcceleration();
+  for (const star of stars) star.update(deltaTime);
+  if (currentConfig.collisions) resolveStarCollisons();
+  for (const star of stars) star.draw(ctx);
+  for (const wall of walls) wall.draw(ctx);
   if (currentConfig.field) field.draw(ctx);
   ctx.font = "20px monospace";
   ctx.fillStyle = "white";
