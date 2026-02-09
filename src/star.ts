@@ -9,8 +9,8 @@ import { G, randomBrightColor } from "./utils";
 import Vector from "./vector";
 
 export class Star {
-  readonly MAX_VX = 10000;
-  readonly MAX_VY = 10000;
+  readonly MAX_VX = 5000;
+  readonly MAX_VY = 5000;
   x: number;
   y: number;
   color = randomBrightColor();
@@ -96,7 +96,7 @@ export class Star {
   }
 
   getGravitationalFieldAt(x: number, y: number) {
-    const eps = 25; //  preventing inf values, and for softening
+    const eps = 10; //  preventing inf values, and for softening
     const dx = this.x - x;
     const dy = this.y - y;
     const dist = Math.sqrt(dx * dx + dy * dy + eps * eps);
@@ -119,8 +119,14 @@ export function resolveStarCollisons() {
       const normal = pos2.subtract(pos1).unit();
       // separate stars
       const penetration = s1.radius + s2.radius - dist;
-      pos1 = pos1.add(normal.scale(-penetration / 2));
-      pos2 = pos2.add(normal.scale(penetration / 2));
+      if (s1.isFixed && !s2.isFixed) {
+        pos2 = pos2.add(normal.scale(penetration));
+      } else if (s2.isFixed && !s1.isFixed) {
+        pos1 = pos1.add(normal.scale(-penetration));
+      } else {
+        pos1 = pos1.add(normal.scale(-penetration / 2));
+        pos2 = pos2.add(normal.scale(penetration / 2));
+      }
       [s1.x, s1.y] = [pos1.x, pos1.y];
       [s2.x, s2.y] = [pos2.x, pos2.y];
       const vS1 = new Vector(s1.vx, s1.vy);
