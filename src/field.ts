@@ -15,7 +15,7 @@ export default class Feild {
     };
     let promises: Promise<void>[] = [];
     for (const [color, image] of Object.entries(this.arrowImages)) {
-      image.src = `/src/assets/arrow_${color}.png`;
+      image.src = `arrow_${color}.png`;
       promises.push(
         image
           .decode()
