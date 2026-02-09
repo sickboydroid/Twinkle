@@ -72,7 +72,7 @@ function draw(curTime: number) {
     frameRateInfo.lastUpdateTime = curTime;
   }
   frameRateInfo.frameCountSinceUpdate++;
-  const deltaTime = Math.min(curTime - lastTime, 10) / 1000;
+  const deltaTime = Math.min(curTime - lastTime, 30) / 1000;
   lastTime = curTime;
   for (const star of stars) {
     star.computeAcceleration();
