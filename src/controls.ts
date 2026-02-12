@@ -13,14 +13,14 @@ interface Config {
 }
 
 const DEFAULTS: Config = {
-  mass: 50000,
+  mass: 10000,
   radius: 5,
   vx: 0,
   vy: 0,
   fixed: false,
-  walls: true,
+  walls: false,
   field: false,
-  collisions: true,
+  collisions: false,
   trail: true,
 };
 
